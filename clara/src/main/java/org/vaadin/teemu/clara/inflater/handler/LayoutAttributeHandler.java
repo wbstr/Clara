@@ -14,7 +14,7 @@ import org.vaadin.teemu.clara.util.AnyClassOrPrimitive;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 
-public class LayoutAttributeHandler extends AttributeHandler {
+public class LayoutAttributeHandler extends DefaultAttributeHandler {
 
     private static final String LAYOUT_ATTRIBUTE_NAMESPACE = "urn:vaadin:parent";
 
@@ -25,6 +25,11 @@ public class LayoutAttributeHandler extends AttributeHandler {
     @Override
     public String getNamespace() {
         return LAYOUT_ATTRIBUTE_NAMESPACE;
+    }
+
+    @Override
+    public Phase getPhase() {
+        return Phase.AFTER_ATTACH;
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.Stack;
 import java.util.logging.Logger;
 
 import org.vaadin.teemu.clara.inflater.filter.AttributeFilter;
-import org.vaadin.teemu.clara.inflater.handler.AttributeHandler;
+import org.vaadin.teemu.clara.inflater.handler.DefaultAttributeHandler;
 import org.vaadin.teemu.clara.inflater.handler.LayoutAttributeHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -25,10 +25,18 @@ import org.xml.sax.helpers.XMLReaderFactory;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.SingleComponentContainer;
+import org.vaadin.teemu.clara.inflater.handler.AttributeHandler;
+import org.vaadin.teemu.clara.inflater.handler.AttributeHandler.Phase;
 
 public class LayoutInflater {
 
     private List<AttributeFilter> attributeFilters = new ArrayList<AttributeFilter>();
+    private List<AttributeHandler> attributeHandlers = new ArrayList<AttributeHandler>();
+
+    public LayoutInflater() {
+        attributeHandlers.add(new DefaultAttributeHandler(attributeFilters));
+        attributeHandlers.add(new LayoutAttributeHandler(attributeFilters));
+    }
 
     protected Logger getLogger() {
         return Logger.getLogger(LayoutInflater.class.getName());
@@ -88,6 +96,14 @@ public class LayoutInflater {
         attributeFilters.remove(attributeFilter);
     }
 
+    public void addAttributeHandler(AttributeHandler attributeHandler) {
+        attributeHandlers.add(attributeHandler);
+    }
+
+    public void removeAttributeHandler(AttributeHandler attributeHandler) {
+        attributeHandlers.remove(attributeHandler);
+    }
+
     private class LayoutInflaterContentHandler extends DefaultHandler {
 
         private static final String URN_NAMESPACE_ID = "import";
@@ -99,8 +115,6 @@ public class LayoutInflater {
         private ComponentContainer currentContainer;
         private Component root;
         private final ComponentFactory componentFactory;
-        private final AttributeHandler attributeHandler;
-        private final LayoutAttributeHandler layoutAttributeHandler;
         private final Set<String> assignedIds = new HashSet<String>();
         private final Map<String, Component> componentOverrideMap;
 
@@ -109,9 +123,6 @@ public class LayoutInflater {
             this.componentOverrideMap = componentOverrideMap;
 
             componentFactory = new ComponentFactory();
-            attributeHandler = new AttributeHandler(attributeFilters);
-            layoutAttributeHandler = new LayoutAttributeHandler(
-                    attributeFilters);
         }
 
         @Override
@@ -142,9 +153,9 @@ public class LayoutInflater {
                 }
 
                 // Basic attributes -> attach -> layout attributes.
-                handleAttributes(component, attributes, attributeHandler);
+                runAttributeHandlerPhase(Phase.BEFORE_ATTACH, component, attributes);
                 attachComponent(component);
-                handleAttributes(component, attributes, layoutAttributeHandler);
+                runAttributeHandlerPhase(Phase.AFTER_ATTACH, component, attributes);
 
                 if (component instanceof ComponentContainer) {
                     currentContainer = (ComponentContainer) component;
@@ -191,6 +202,14 @@ public class LayoutInflater {
             String className = localName;
 
             return componentFactory.createComponent(packageName, className);
+        }
+
+        private void runAttributeHandlerPhase(Phase phase, Component component, Attributes attributes) {
+            for (AttributeHandler attributeHandler : attributeHandlers) {
+                if (attributeHandler.getPhase() == phase) {
+                    handleAttributes(component, attributes, attributeHandler);
+                }
+            }
         }
 
         private void handleAttributes(Component component,
