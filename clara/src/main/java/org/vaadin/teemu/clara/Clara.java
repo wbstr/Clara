@@ -11,6 +11,7 @@ import org.vaadin.teemu.clara.inflater.filter.AttributeFilter;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HasComponents;
+import org.vaadin.teemu.clara.inflater.handler.AttributeHandler;
 
 public class Clara {
 
@@ -57,21 +58,11 @@ public class Clara {
      */
     public static Component create(InputStream xml, Object controller,
             AttributeFilter... attributeFilters) {
-        Binder binder = new Binder();
-
-        // Inflate the XML to a component (tree).
-        LayoutInflater inflater = new LayoutInflater();
-        if (attributeFilters != null) {
-            for (AttributeFilter filter : attributeFilters) {
-                inflater.addAttributeFilter(filter);
-            }
-        }
-        Component result = inflater.inflate(xml,
-                binder.getAlreadyAssignedFields(controller));
-
-        // Bind to controller.
-        binder.bind(result, controller);
-        return result;
+        return new Builder()
+                .readFromStream(xml)
+                .bindToController(controller)
+                .addAttributeFilter(attributeFilters)
+                .build();
     }
 
     /**
@@ -104,7 +95,7 @@ public class Clara {
      *            modifications.
      * @return a {@link Component} that is read from the XML representation and
      *         bound to the given {@code controller}.
-     * 
+     *
      * @throws LayoutInflaterException
      *             if an error is encountered during the layout inflation.
      * @throws BinderException
@@ -112,9 +103,11 @@ public class Clara {
      */
     public static Component create(String xmlClassResourceFileName,
             Object controller, AttributeFilter... attributeFilters) {
-        InputStream xml = controller.getClass().getResourceAsStream(
-                xmlClassResourceFileName);
-        return create(xml, controller, attributeFilters);
+        return new Builder()
+                .readFromFile(xmlClassResourceFileName)
+                .bindToController(controller)
+                .addAttributeFilter(attributeFilters)
+                .build();
     }
 
     /**
@@ -162,6 +155,65 @@ public class Clara {
             }
         }
         return null;
+    }
+
+    public static class Builder {
+
+        private InputStream xml;
+        private String xmlClassResourceFileName;
+        private Object controller;
+        private final Binder binder = new Binder();
+        private final LayoutInflater inflater = new LayoutInflater();
+
+        public Builder readFromFile(String xmlClassResourceFileName) {
+            this.xmlClassResourceFileName = xmlClassResourceFileName;
+            if (xml == null && controller != null) {
+                createStream();
+            }
+            return this;
+        }
+
+        public Builder readFromStream(InputStream xml) {
+            this.xml = xml;
+            return this;
+        }
+
+        public Builder bindToController(Object controller) {
+            this.controller = controller;
+            if (xml == null && xmlClassResourceFileName != null) {
+                createStream();
+            }
+            return this;
+        }
+
+        private void createStream() {
+            xml = controller.getClass().getResourceAsStream(xmlClassResourceFileName);
+        }
+
+        public Builder addAttributeFilter(AttributeFilter... attributeFilters) {
+            if (attributeFilters != null) {
+                for (AttributeFilter a : attributeFilters) {
+                    inflater.addAttributeFilter(a);
+                }
+            }
+            return this;
+        }
+
+        public Builder addAttributeHandler(AttributeHandler... attributeHandlers) {
+            if (attributeHandlers != null) {
+                for (AttributeHandler a : attributeHandlers) {
+                    inflater.addAttributeHandler(a);
+                }
+            }
+            return this;
+        }
+
+        public Component build() {
+            Component result = inflater.inflate(xml,
+                    binder.getAlreadyAssignedFields(controller));
+            binder.bind(result, controller);
+            return result;
+        }
     }
 
 }
