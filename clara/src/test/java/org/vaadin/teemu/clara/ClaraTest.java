@@ -19,6 +19,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Layout;
 import com.vaadin.ui.VerticalLayout;
+import java.util.Map;
+import org.vaadin.teemu.clara.inflater.handler.AttributeHandler;
 
 public class ClaraTest {
 
@@ -190,6 +192,17 @@ public class ClaraTest {
         assertNull(c);
     }
 
+    @Test
+    public void testAttributeHandler() {
+        AttributeHandler handler = getAttributeHandler();
+        Component layout = new Clara.Builder()
+                .addAttributeHandler(handler)
+                .readFromStream(getXml("attribute-handler-test.xml"))
+                .build();
+        Component c = Clara.findComponentById(layout, "component");
+        assertEquals("hello:1", c.getCaption());
+    }
+
     private InputStream getXml(String fileName) {
         return getClass().getClassLoader().getResourceAsStream(fileName);
     }
@@ -233,4 +246,26 @@ public class ClaraTest {
             }
         };
     }
+
+    public AttributeHandler getAttributeHandler() {
+        return new AttributeHandler() {
+
+            @Override
+            public String getNamespace() {
+                return "urn:vaadin:myaddon";
+            }
+
+            @Override
+            public AttributeHandler.Phase getPhase() {
+                return Phase.AFTER_ATTACH;
+            }
+
+            @Override
+            public void assignAttributes(Component component, Map<String, String> attributes) {
+                component.setCaption(attributes.get("myprop")+":"+attributes.size());
+            }
+
+        };
+    }
+
 }

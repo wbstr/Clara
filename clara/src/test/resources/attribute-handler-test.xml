@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VerticalLayout
+    xmlns="urn:import:com.vaadin.ui"
+    xmlns:x="urn:vaadin:myaddon"
+    margin="true true false false">
+    <Button id="component" width="200px" layout_expandRatio="1.0" x:myprop="hello"/>
+</VerticalLayout>
