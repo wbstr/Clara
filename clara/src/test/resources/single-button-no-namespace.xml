@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button tabIndex="1" id="my-button" caption="My Button" readOnly="true" />
+<Button tabIndex="1" id="my-button" caption="My Button" enabled="false" />

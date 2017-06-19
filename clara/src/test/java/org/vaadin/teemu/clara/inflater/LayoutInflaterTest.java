@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.vaadin.shared.ui.ContentMode;
 import org.junit.Before;
 import org.junit.Test;
 import org.vaadin.teemu.clara.Clara;
@@ -16,7 +17,6 @@ import org.vaadin.teemu.clara.inflater.handler.AttributeHandlerException;
 
 import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.shared.ui.MarginInfo;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -57,7 +57,7 @@ public class LayoutInflaterTest {
 
         // check attributes
         assertEquals("My Button", button.getCaption());
-        assertEquals(true, button.isReadOnly());
+        assertEquals(false, button.isEnabled());
     }
 
     @Test
@@ -102,7 +102,7 @@ public class LayoutInflaterTest {
 
         // check attributes
         assertEquals("My Button", button.getCaption());
-        assertEquals(true, button.isReadOnly());
+        assertEquals(false, button.isEnabled());
     }
 
     @Test

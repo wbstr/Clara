@@ -13,16 +13,16 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import org.vaadin.teemu.clara.inflater.LayoutInflaterException;
 
 import com.vaadin.annotations.Theme;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.ObjectProperty;
-import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.ObjectProperty;
+import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextArea;
+import com.vaadin.v7.ui.TextArea;
 import com.vaadin.ui.UI;
 
 @SuppressWarnings("serial")

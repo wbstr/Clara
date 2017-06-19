@@ -2,14 +2,14 @@ package org.vaadin.teemu.clara.demo;
 
 import java.util.Date;
 
+import com.vaadin.data.HasValue;
 import org.vaadin.teemu.clara.binder.annotation.UiDataSource;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.data.util.ObjectProperty;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.data.util.ObjectProperty;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Notification;
 
@@ -50,9 +50,9 @@ public class DemoController {
     }
 
     @UiHandler("value-field")
-    public void someValueChanged(ValueChangeEvent event) {
+    public void someValueChanged(HasValue.ValueChangeEvent<Double> event) {
         Notification.show("Value of \"value-field\" is now "
-                + event.getProperty().getValue());
+                + event.getValue());
     }
 
 }

@@ -25,9 +25,9 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import org.vaadin.teemu.clara.util.MethodComparator;
 import org.vaadin.teemu.clara.util.ReflectionUtils.ParamCount;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
 import com.vaadin.ui.Component;
 
 public class Binder {

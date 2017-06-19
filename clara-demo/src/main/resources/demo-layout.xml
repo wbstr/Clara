@@ -15,6 +15,7 @@
 -->
 <VerticalLayout 
     xmlns="urn:import:com.vaadin.ui"
+    xmlns:v7="urn:import:com.vaadin.v7.ui"
     xmlns:a="urn:import:org.vaadin.teemu.ratingstars"
     xmlns:l="urn:vaadin:parent"
     margin="true"
@@ -27,12 +28,12 @@
         <Button id="another-button" width="200px" caption="Click me too" />
     </HorizontalLayout>
 
-    <DateField caption="Select a date" id="date" immediate="true" />
+    <v7:DateField caption="Select a date" id="date" immediate="true" />
 
     <CssLayout width="60%">
-        <Table id="person-list" width="100%" 
+        <v7:Table id="person-list" width="100%"
             caption="Controller provides my datasource..." pageLength="2" />
-        <Select caption="...try moving the person-list id here" 
+        <v7:Select caption="...try moving the person-list id here"
             itemCaptionPropertyId="Name" />
     </CssLayout>
     

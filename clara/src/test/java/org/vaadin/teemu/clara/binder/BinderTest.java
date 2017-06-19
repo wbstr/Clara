@@ -14,10 +14,10 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import org.vaadin.teemu.clara.inflater.LayoutInflater;
 
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Property;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.DateField;
+import com.vaadin.v7.ui.DateField;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -172,7 +172,7 @@ public class BinderTest {
         @UiDataSource("my-datefield")
         public Property<Date> getDataSource() {
             Date date = new Date(1337337477578L);
-            return new com.vaadin.data.util.ObjectProperty<Date>(date);
+            return new com.vaadin.v7.data.util.ObjectProperty<Date>(date);
         }
 
     }
