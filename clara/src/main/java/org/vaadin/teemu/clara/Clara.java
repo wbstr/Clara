@@ -34,12 +34,12 @@ public class Clara {
      * given as {@link InputStream} and binds the resulting {@link Component} to
      * the given {@code controller} object.
      * 
-     * <br />
-     * <br />
+     *
+     *
      * Optionally you may also provide {@link AttributeFilter}s to do some
      * modifications (or example localized translations) to any attributes
      * present in the XML representation.
-     * 
+     *
      * @param xml
      *            XML representation.
      * @param controller
@@ -50,7 +50,7 @@ public class Clara {
      *            modifications.
      * @return a {@link Component} that is read from the XML representation and
      *         bound to the given {@code controller}.
-     * 
+     *
      * @throws LayoutInflaterException
      *             if an error is encountered during the layout inflation.
      * @throws BinderException
@@ -69,21 +69,21 @@ public class Clara {
      * Returns a {@link Component} that is read from an XML file in the
      * classpath and binds the resulting {@link Component} to the given
      * {@code controller} object.
-     * 
-     * <br />
-     * <br />
+     *
+     *
+     *
      * The filename is given either as a path relative to the class of the
      * {@code controller} object or as an absolute path. For example if you have
      * a {@code MyController.java} and {@code MyController.xml} files in the
      * same package, you can call this method like
      * {@code Clara.create("MyController.xml", new MyController())}.
-     * 
-     * <br />
-     * <br />
+     *
+     *
+     *
      * Optionally you may also provide {@link AttributeFilter}s to do some
      * modifications (or example localized translations) to any attributes
      * present in the XML representation.
-     * 
+     *
      * @param xmlClassResourceFileName
      *            filename of the XML representation (within classpath, relative
      *            to {@code controller}'s class or absolute path).
@@ -114,9 +114,9 @@ public class Clara {
      * Searches the given component hierarchy {@code root} for a
      * {@link Component} with the given {@code componentId} as its {@code id}
      * property (see {@link Component#setId(String)}).
-     * 
-     * <br />
-     * <br />
+     *
+     *
+     *
      * If the given {@code root} is a {@link ComponentContainer}, this method
      * will recursively iterate the component hierarchy in search for the
      * correct {@link Component}. Otherwise if the given {@code root} is a

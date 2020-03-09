@@ -14,7 +14,6 @@ public class ComponentFactory {
      * 
      * @param namespace
      * @param name
-     * @param attributes
      * @return a new {@link Component} instance.
      * @throws ComponentInstantiationException
      */

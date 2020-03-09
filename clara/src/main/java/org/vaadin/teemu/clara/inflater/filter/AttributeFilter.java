@@ -9,8 +9,6 @@ public interface AttributeFilter {
      * {@link Component} allowing manipulation of the value by calling
      * {@link AttributeContext#setValue(Object)}.
      * 
-     * <br />
-     * <br />
      * Call the {@link AttributeContext#proceed()} to proceed to the next
      * {@link AttributeFilter} and to finally set the value if no other
      * {@link AttributeFilter}s exist. If you do not call the
